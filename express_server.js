@@ -22,7 +22,6 @@ app.get('/', (req, res) => {
 
 app.get('/urls', (req, res) => {
   let templateVars = { urls : urlDatabase };
-  // MAGIC KEYWORD     ^key   ^key:value pairs of object defined above
   res.render('urls_index', templateVars);        // renders a view (/views/<>.ejs) with                                                          templateVars
 });
 
@@ -30,7 +29,7 @@ app.get('/urls.json', (req, res) => {
   res.json(urlDatabase);                         // sends parameter converted into .JSON string
 });
 
-app.get("/urls/new", (req, res) => {
+app.get('/urls/new', (req, res) => {
   res.render("urls_new");                        // renders a view (/views/<>.ejs) 
 });
 
@@ -40,7 +39,7 @@ app.get('/urls/:id', (req, res) => {
   res.render("url_shows", templateVars);        // renders a view (/views/<>.ejs) with                                                          templateVars
 });
 
-app.get("/u/:shortURL", (req, res) => {
+app.get('/u/:shortURL', (req, res) => {
   let longURL = urlDatabase[req.params.shortURL];
     res.redirect(longURL);                      // redirects the specified URL path w/ status                                                 code
   });
@@ -49,11 +48,15 @@ app.get('/hello', function(req, res){
   res.send("<html><body>Hello <b>World</b></body></html>\n");     // sends HTTP response
 });
 
-app.post("/urls", (req, res) => {
-  console.log(req.params);
+app.post('/urls', (req, res) => {
   var random = generateRandomString();
   urlDatabase[random] = req.body.longURL;
   res.redirect(`http://localhost:8080/urls/${random}`);    // redirects the specified URL path                                                             w/ status code
+});
+
+app.post('/urls/:id/delete', (req, res) => {
+  delete urlDatabase[req.params.id];
+  res.redirect('/urls');
 });
 
 app.listen(PORT, () => {                        // starts a UNIX socket and listens for                                                           connections on the given path
