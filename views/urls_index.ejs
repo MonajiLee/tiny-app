@@ -1,0 +1,32 @@
+<!-- Use the urls_index.ejs template to display all the URLs and their shortened forms, but before you can do that, you'll need to pass it the URL data from express_server.js. -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <title>TinyApp</title>
+
+</head>
+
+<header>
+    <% include partials/_header %>
+</header>
+
+<body>
+
+    <div>
+    <h1>URLs and Shortened URLs</h1>
+            <!-- list of URLs and shortened URLS -->
+            <ul><% for (let url in urls){ %>
+                <li><%= url %></li>
+                <% } %>
+            </ul>
+            
+            <!-- a link for shortening a new URL; dead link for now (href='#') -->
+            <link href='#'>
+    </div>
+
+</body>
+
+</html>

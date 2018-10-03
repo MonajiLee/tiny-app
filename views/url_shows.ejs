@@ -1,0 +1,16 @@
+<!-- The long URL and its shortened form -->
+
+<!-- For example, if the ID of the long url was b2xVn2, then the url would look like /urls/b2xVn2 in the browser -->
+
+<!-- Fill out the urls_show.ejs template to display the following:
+The long URL and its shortened form. -->
+
+<header>
+    <% include partials/_header %>
+</header>
+
+<h1>Shortened URL Form</h1>
+    <ul>
+        <li><%= shortURL %></li>
+        <li><%= longURL %></li>
+    </ul>
