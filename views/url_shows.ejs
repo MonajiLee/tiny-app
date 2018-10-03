@@ -9,8 +9,15 @@ The long URL and its shortened form. -->
     <% include partials/_header %>
 </header>
 
-<h1>Shortened URL Form</h1>
-    <ul>
-        <li><%= shortURL %></li>
-        <li><%= longURL %></li>
-    </ul>
+<h1>ShortURL: <strong><%= shortURL %></strong></h1>
+    <br>
+    
+    <form action="/urls/<%= shortURL %>/update" method="POST" style="margin:150px;">
+    
+        <label for="updateURL">Enter a URL:</label>
+    
+        <input id="updateURL" type="text" name="longURL" placeholder="http://" style="width: 300px">
+      
+        <input type="submit" value="Submit">
+    
+    </form>

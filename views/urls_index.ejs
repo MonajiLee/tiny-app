@@ -16,10 +16,22 @@
 <body>
 
     <div>
-    <h1>URLs and Shortened URLs</h1>
+    <h1>URLs: Uniform Resource Locators</h1>
+    
+    <h2>Shortened URLs</h2>
             <!-- list of URLs and shortened URLS -->
             <ul><% for (let url in urls){ %>
-                <li><%= url %></li>
+                
+                <li><%= url %> → <%= urls[url] %> &ensp;&ensp; 
+                    
+                    <!-- <button type="button" id="delete" class="btn btn-primary btn-sm">Delete URL</button> -->
+                </li>
+                <form action="/urls/<%= url %>/delete" method="POST">
+                    <input type = 'submit' value = 'delete'/>
+                </form>
+                <a href='/urls/<%= url %>'>Edit</a>
+                <br>
+
                 <% } %>
             </ul>
             
