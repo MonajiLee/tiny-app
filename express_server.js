@@ -49,9 +49,15 @@ app.get('/hello', function(req, res){
 });
 
 app.post('/urls', (req, res) => {
-  var random = generateRandomString();
+  let random = generateRandomString();
   urlDatabase[random] = req.body.longURL;
   res.redirect(`http://localhost:8080/urls/${random}`);    // redirects the specified URL path                                                             w/ status code
+});
+
+app.post('/urls/:id/update', (req, res) => {
+  let id = req.params.id;
+  urlDatabase[id] = req.body.longURL;
+  res.redirect('/urls');
 });
 
 app.post('/urls/:id/delete', (req, res) => {
