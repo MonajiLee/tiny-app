@@ -30,14 +30,23 @@ function generateRandomString() {
   return Math.random().toString(16).substring(2, 8)
 };
 
-let emailMatch = function findEmailMatch() {
-  for (var email in users){
-    if (email === req.body.email){
-      return true
-    }
+function findEmailMatch(emailSubmitted) {
+  for (var key in users){
+    if (users[key].email === emailSubmitted){
+     return true;
+   }
   }
+  return false;
 };
 
+function findPasswordMatch(passwordSubmitted) {
+  for (var key in users){
+    if (users[key].password === passwordSubmitted){
+     return true;
+    }
+  }
+  return false;
+};
 
 app.get('/', (req, res) => {
   res.send('Hello');
@@ -45,7 +54,7 @@ app.get('/', (req, res) => {
 
 app.get('/urls', (req, res) => {
   let templateVars = { urls : urlDatabase,
-                       username: req.cookies["username"] };
+                       userObj: req.cookies["user_id"] };
   res.render('urls_index', templateVars);
 });
 
@@ -54,14 +63,14 @@ app.get('/urls.json', (req, res) => {
 });
 
 app.get('/urls/new', (req, res) => {
-  let templateVars = { username: req.cookies["username"] };
+  let templateVars = { userObj: req.cookies["user_id"] };
   res.render("urls_new"); 
 });
 
 app.get('/urls/:id', (req, res) => {
   let templateVars = { shortURL: req.params.id,
                        longURL: urlDatabase[req.params.id],
-                       username: req.cookies["username"] };
+                       userObj: req.cookies["user_id"] };
   console.log(req.cookies["username"]);
   res.render("url_shows", templateVars);
 });
@@ -76,13 +85,18 @@ app.get('/register', (req, res) => {
   res.render("register");
 });
 
-app.get('/hello', function(req, res){
+app.get('/hello', (req, res) => {
   res.send("<html><body>Hello <b>World</b></body></html>\n");
 });
 
+app.get('/login', (req, res) => {
+  let templateVars = { username: req.body.id,
+                       userObj: req.cookies["user_id"] };
+  res.render("login");
+});
+
 app.post('/urls', (req, res) => {
-  let random = generateRandomString();
-  urlDatabase[random] = req.body.longURL;
+  urlDatabase[randomId] = req.body.longURL;
   res.redirect(`http://localhost:8080/urls/${random}`);
 });
 
@@ -99,23 +113,34 @@ app.post('/urls/:id/delete', (req, res) => {
 
 app.post('/register', (req, res) => {
   let randomId = generateRandomString();
-
-  if (req.body.email === "" || req.body.password === "") {
-    res.status(400).send('Sorry, we cannot find that!');
-  } else if (emailMatch) {
-    res.status(400).send('Sorry, we already have that e-mail registered.');
-  } else {
-      key = { id: randomId, 
+  let isMatch = findEmailMatch(req.body.email);
+    if (req.body.email === "" || req.body.password === "") {
+      res.status(400).send('Sorry, we cannot find that!');
+    } else if (isMatch) {
+      res.status(400).send('Sorry, we already have that e-mail registered.');
+    } else {
+      users[randomId] = { id: randomId, 
       email: req.body.email, 
       password: req.body.password };
       res.cookie('user_id', randomId);
-  }
-  res.redirect('/urls');
+      res.redirect('/urls');
+    }
 });
 
 app.post('/login', (req, res) => {
-  res.cookie('username', req.body);
-  res.redirect('/urls');
+  res.cookie('user_id', req.body);
+  let isEmailMatch = findEmailMatch(req.body.email);
+  let isPasswordMatch = findPasswordMatch(req.body.password);
+  if (isEmailMatch) {
+    if (isPasswordMatch){
+      res.cookie('user_id');
+      res.redirect('/');
+    } else {
+      res.status(403).send('Error 400: Forbidden.')
+    }
+  } else {
+    res.status(403).send('Error 400: Forbidden.');
+  }
 });
 
 app.post('/logout', (req, res) => {
