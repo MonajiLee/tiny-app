@@ -30,6 +30,14 @@ function generateRandomString() {
   return Math.random().toString(16).substring(2, 8)
 };
 
+let emailMatch = function findEmailMatch() {
+  for (var email in users){
+    if (email === req.body.email){
+      return true
+    }
+  }
+};
+
 
 app.get('/', (req, res) => {
   res.send('Hello');
@@ -91,10 +99,17 @@ app.post('/urls/:id/delete', (req, res) => {
 
 app.post('/register', (req, res) => {
   let randomId = generateRandomString();
-  users[randomId] = { id: randomId, 
-                      name: req.body.email, 
-                      password: req.body.password };
-  res.cookie('user_id', randomId);
+
+  if (req.body.email === "" || req.body.password === "") {
+    res.status(400).send('Sorry, we cannot find that!');
+  } else if (emailMatch) {
+    res.status(400).send('Sorry, we already have that e-mail registered.');
+  } else {
+      key = { id: randomId, 
+      email: req.body.email, 
+      password: req.body.password };
+      res.cookie('user_id', randomId);
+  }
   res.redirect('/urls');
 });
 
