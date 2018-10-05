@@ -53,8 +53,16 @@ app.get('/', (req, res) => {
 });
 
 app.get('/urls', (req, res) => {
-  let templateVars = { urls : urlDatabase,
-                       userObj: req.cookies["user_id"] };
+  //no need for this.
+  //let randomId = generateRandomString();
+  // let templateVars = { urls : urlDatabase,
+  //                      userObj: req.cookies("user_id", users[randomId]) };
+  let templateVars = { 
+        urls : urlDatabase,
+        userObj: users[req.cookies["user_id"]],  //you are storing the whole user object in //userObj
+        userCookie: req.cookies["user_id"]
+  };
+  console.log(users);
   res.render('urls_index', templateVars);
 });
 
@@ -63,15 +71,17 @@ app.get('/urls.json', (req, res) => {
 });
 
 app.get('/urls/new', (req, res) => {
-  let templateVars = { userObj: req.cookies["user_id"] };
+  let randomId = generateRandomString();
+  let templateVars = { userObj: users[req.cookies["user_id"]],
+                       userCookie: req.cookies["user_id"] };
   res.render("urls_new"); 
 });
 
 app.get('/urls/:id', (req, res) => {
+  let randomId = generateRandomString();
   let templateVars = { shortURL: req.params.id,
                        longURL: urlDatabase[req.params.id],
-                       userObj: req.cookies["user_id"] };
-  console.log(req.cookies["username"]);
+                       userObj: users[req.cookies["user_id"]] };
   res.render("url_shows", templateVars);
 });
 
@@ -90,8 +100,10 @@ app.get('/hello', (req, res) => {
 });
 
 app.get('/login', (req, res) => {
-  let templateVars = { username: req.body.id,
-                       userObj: req.cookies["user_id"] };
+  let randomId = generateRandomString();
+  let templateVars = {
+    userObj: users[req.cookies["user_id"]],
+    userCookie: req.cookies["user_id"] };
   res.render("login");
 });
 
@@ -122,18 +134,27 @@ app.post('/register', (req, res) => {
       users[randomId] = { id: randomId, 
       email: req.body.email, 
       password: req.body.password };
+      //don't need to store the whole object in the cookie
+      //What you need to store is only userId
+      //res.cookies('user_id', users[randomId]);
       res.cookie('user_id', randomId);
       res.redirect('/urls');
     }
 });
 
 app.post('/login', (req, res) => {
-  res.cookie('user_id', req.body);
+  let user_id = '';
+  for (const key in users) {
+    if (req.body.email === users[key].email) {
+      user_id = key
+    }
+  };
+
   let isEmailMatch = findEmailMatch(req.body.email);
   let isPasswordMatch = findPasswordMatch(req.body.password);
   if (isEmailMatch) {
     if (isPasswordMatch){
-      res.cookie('user_id');
+      res.cookie('user_id', user_id);
       res.redirect('/');
     } else {
       res.status(403).send('Error 400: Forbidden.')
@@ -144,7 +165,7 @@ app.post('/login', (req, res) => {
 });
 
 app.post('/logout', (req, res) => {
-  res.clearCookie('user_id', req.body);
+  res.clearCookie('user_id');
   res.redirect('/urls');
 });
 
