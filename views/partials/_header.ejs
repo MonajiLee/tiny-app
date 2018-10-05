@@ -1,3 +1,10 @@
 <header></header>
 
-<a href='/login'>Login</a> <a href='/register'>Register</a>
+<% if ( userObj ) { %>
+    <%= userObj.email %>
+    <form style="display: inline-block;" action="/logout" method="POST">
+        <input name="logout" type="submit" value="logout">
+    </form>
+<% } else { %>
+    <a href='/login'>Login</a> <a href='/register'>Register</a>
+<% } %>
