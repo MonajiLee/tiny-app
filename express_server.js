@@ -48,20 +48,23 @@ function findPasswordMatch(passwordSubmitted) {
   return false;
 };
 
+function findUser (idSubmitted) {
+  for (var key in users){
+    if (users[key].id === idSubmitted) {
+    return true;
+    }
+  }
+  return false;
+};
+
 app.get('/', (req, res) => {
   res.send('Hello');
 });
 
 app.get('/urls', (req, res) => {
-  //no need for this.
-  //let randomId = generateRandomString();
-  // let templateVars = { urls : urlDatabase,
-  //                      userObj: req.cookies("user_id", users[randomId]) };
-  let templateVars = { 
-        urls : urlDatabase,
-        userObj: users[req.cookies["user_id"]],  //you are storing the whole user object in //userObj
-        userCookie: req.cookies["user_id"]
-  };
+  let templateVars = { urls : urlDatabase,
+                       userObj: users[req.cookies["user_id"]],
+                       userCookie: req.cookies["user_id"] };
   console.log(users);
   res.render('urls_index', templateVars);
 });
@@ -74,7 +77,12 @@ app.get('/urls/new', (req, res) => {
   let randomId = generateRandomString();
   let templateVars = { userObj: users[req.cookies["user_id"]],
                        userCookie: req.cookies["user_id"] };
-  res.render("urls_new"); 
+  let currentUser = req.cookies['user_id'];
+  if (findUser(currentUser)) {
+    res.render("urls_new", templateVars);
+  } else {
+    res.redirect("/login")
+  }   
 });
 
 app.get('/urls/:id', (req, res) => {
@@ -101,9 +109,8 @@ app.get('/hello', (req, res) => {
 
 app.get('/login', (req, res) => {
   let randomId = generateRandomString();
-  let templateVars = {
-    userObj: users[req.cookies["user_id"]],
-    userCookie: req.cookies["user_id"] };
+  let templateVars = { userObj: users[req.cookies['user_id']],
+                       userCookie: req.cookies['user_id'] };
   res.render("login");
 });
 
@@ -149,13 +156,12 @@ app.post('/login', (req, res) => {
       user_id = key
     }
   };
-
   let isEmailMatch = findEmailMatch(req.body.email);
   let isPasswordMatch = findPasswordMatch(req.body.password);
   if (isEmailMatch) {
     if (isPasswordMatch){
       res.cookie('user_id', user_id);
-      res.redirect('/');
+      res.redirect('/urls');
     } else {
       res.status(403).send('Error 400: Forbidden.')
     }
