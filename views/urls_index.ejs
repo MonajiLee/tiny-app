@@ -1,42 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-    <title>TinyApp</title>
-
+  <title>TinyApp</title>
 </head>
 
 <header>
     <% include partials/_header %>
 </header>
 
-<body>
-
-    <div>
-    <h1>URLs: Uniform Resource Locators</h1>
-    
-    <h2>Shortened URLs</h2>
-            <!-- list of URLs and shortened URLS -->
-            <ul><% for (let url in urls){ %>
-                
-                <li><%= url %> → <%= urls[url] %> &ensp;&ensp; 
-                    
-                    <!-- <button type="button" id="delete" class="btn btn-primary btn-sm">Delete URL</button> -->
-                </li>
-                <form action="/urls/<%= url %>/delete" method="POST">
-                    <input type = 'submit' value = 'delete'/>
-                </form>
-                <a href='/urls/<%= url %>'>Edit</a>
-                <br>
-
-                <% } %>
-            </ul>
-            
-            <!-- a link for shortening a new URL; dead link for now (href='#') -->
-            <link href='#'>
+    <div class="card">
+        <div class="card-body">
+            <h1 class="card-title">TinyApp: Lighthouse Labs URL Shortener</h1>
+        </div>
     </div>
 
+<body style="font-size:20px; padding:50px;">
+    <ul>
+        <% for (let url in urls) { %>
+        <h3><%= url %> &ensp; → &ensp; <%= urls[url].URL %></h3>
+        <form method="GET" action="/urls/<%= url %>/"><input type="submit" value="Edit"></form>
+        <form method="POST" action="/urls/<%= url %>/delete"><input type="submit" value="Delete"></form>
+        <% } %>
+        <h3><a href='urls/new'>Click here to shorten a new URL </a></h3>
+    </ul>
 </body>
-
 </html>
