@@ -1,23 +1,26 @@
-<!-- The long URL and its shortened form -->
-
-<!-- For example, if the ID of the long url was b2xVn2, then the url would look like /urls/b2xVn2 in the browser -->
-
-<!-- Fill out the urls_show.ejs template to display the following:
-The long URL and its shortened form. -->
+<head>
+    <title>TinyApp | <%=shortURL %></title>
+</head>
 
 <header>
     <% include partials/_header %>
 </header>
 
-<h1>ShortURL: <strong><%= shortURL %></strong></h1>
-    <br>
+    <div class="card">
+        <div class="card-body">
+            <h1 class="card-title">TinyApp: Lighthouse Labs URL Shortener</h1>
+        </div>
+    </div>
     
-    <form action="/urls/<%= shortURL %>/update" method="POST" style="margin:150px;">
-    
-        <label for="updateURL">Enter a URL:</label>
-    
-        <input id="updateURL" type="text" name="longURL" placeholder="http://" style="width: 300px">
-      
-        <input type="submit" value="Submit">
-    
+<body style="font-size:20px; padding:50px;">
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title">ShortURL: <strong><%= shortURL %></strong></h2>
+    </div>
+
+    <form action="/urls" method="POST">
+        <input id="longURL" type="text" name="longURL" placeholder="<%= longURL.URL %>" style="width: 300px">
+        <input type="submit" value="Update">
     </form>
+
+</body>
