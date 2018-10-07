@@ -1,19 +1,28 @@
-<header></header>
+<div class="card">
+    <div class="card-body">
+        <h1 class="card-title">TinyApp: Lighthouse Labs URL Shortener</h1>
+    </div>
+</div>
 
-<body>
 
-    <form action='/login' method='POST'> 
+<header>
+    <% include partials/_header %>
+</header>
 
-        <div class="form-group">
-            <label for="exampleInputEmail1">Email address</label>
-            <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-        </div>
-        <div class="form-group">
-            <label for="exampleInputPassword1">Password</label>
-            <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-        </div>
-        <input type="submit" value="Login">
+
+<body style="font-size:20px; padding:50px;">
+    <h2>Login to TinyApp</h2>
+    <% if(userObj){ %>
+        <h2><%= userObj.email %></h2>
+        <form method="POST" action="/logout"><input type="submit" value="Logout"></form>
     
-    </form>
-
+    <% } else { %>  
+        <form method="POST" action="/login">
+            <h3>Email</h3>
+            <input type="email" name="email" placeholder="email@example.com">
+            <h3>Password</h3>
+            <input type="password" name="password" placeholder="Password">
+            <input type="submit" value="Login">
+        </form>
+    <% } %>
 </body>
