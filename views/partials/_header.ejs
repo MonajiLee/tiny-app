@@ -1,10 +1,7 @@
-<header></header>
-
-<% if ( userObj ) { %>
-    <%= userObj.email %>
-    <form style="display: inline-block;" action="/logout" method="POST">
-        <input name="logout" type="submit" value="logout">
-    </form>
-<% } else { %>
-    <a href='/login'>Login</a> <a href='/register'>Register</a>
-<% } %>
+<header>
+    <% if(userObj){ %>
+    <h2><%= userObj.email %></h2>
+    <form method="POST" action="/logout"><input type="submit" value="Logout"></form>
+    <% } %>
+    <a href="/register">Sign Up</a> &ensp; <a href="/login">Login</a>
+</header>
