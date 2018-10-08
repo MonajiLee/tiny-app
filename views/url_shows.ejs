@@ -1,26 +1,20 @@
-<head>
-    <title>TinyApp | <%=shortURL %></title>
-</head>
-
-<header>
-    <% include partials/_header %>
-</header>
-
-    <div class="card">
-        <div class="card-body">
-            <h1 class="card-title">TinyApp: Lighthouse Labs URL Shortener</h1>
-        </div>
+<div class="card">
+    <div class="card-body">
+        <h1 class="card-title">TinyApp: Lighthouse Labs URL Shortener</h1>
     </div>
+</div>
     
 <body style="font-size:20px; padding:50px;">
+    <% include partials/_header %>
     <div class="card">
         <div class="card-body">
-            <h2 class="card-title">ShortURL: <strong><%= shortURL %></strong></h2>
+            <h2 class="card-title">ShortURL: <strong><%= shortURL %></strong>
+            </h2>
+        </div>
     </div>
 
     <form action="/urls" method="POST">
         <input id="longURL" type="text" name="longURL" placeholder="<%= longURL.URL %>" style="width: 300px">
         <input type="submit" value="Update">
     </form>
-
 </body>
