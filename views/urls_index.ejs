@@ -1,27 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <title>TinyApp</title>
-</head>
 
-<header>
-    <% include partials/_header %>
-</header>
-
-    <div class="card">
-        <div class="card-body">
-            <h1 class="card-title">TinyApp: Lighthouse Labs URL Shortener</h1>
-        </div>
+<div class="card">
+    <div class="card-body">
+        <h1 class="card-title">TinyApp: Lighthouse Labs URL Shortener</h1>
     </div>
+</div>
 
 <body style="font-size:20px; padding:50px;">
+    <% include partials/_header %>
     <ul>
+    <% if (userObj) { %>
         <% for (let url in urls) { %>
-        <h3><%= url %> &ensp; → &ensp; <%= urls[url].URL %></h3>
-        <form method="GET" action="/urls/<%= url %>/"><input type="submit" value="Edit"></form>
-        <form method="POST" action="/urls/<%= url %>/delete"><input type="submit" value="Delete"></form>
+            <h3><%= url %> &ensp; → &ensp; <%= urls[url].URL %></h3>
+            
+            <form method="GET" action="/urls/<%= url %>/"><input type="submit" value="Edit">
+            </form>
+            
+            <form method="POST" action="/urls/<%= url %>/delete"><input type="submit" value="Delete">
+            </form>
         <% } %>
-        <h3><a href='urls/new'>Click here to shorten a new URL </a></h3>
+            
+        <h3><a href='/urls/new'>Click here to shorten a new URL </a>
+        </h3>
+    <% } %>
     </ul>
+
 </body>
 </html>
