@@ -5,7 +5,7 @@ TinyApp is a full stack web application built with Node and Express that allows 
 As a part of the web development curriculum at Lighthouse Labs (YVR), this was an individual evaluated project built over four days.
 
 ## Final Product
-!["Main page of shortened and original URLs"](https://github.com/MonajiLee/tiny-app/blob/master/docs/urls-page.png)
+!["Main page of shortened and original URLs"](https://github.com/MonajiLee/tiny-app/blob/master/docs/main-page.png)
 !["Edit page for an existing URL"](https://github.com/MonajiLee/tiny-app/blob/master/docs/edit-page.png)
 
 ## Dependencies
