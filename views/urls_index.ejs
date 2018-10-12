@@ -12,7 +12,7 @@
     <ul>
     <% if (userObj) { %>
         <% for (let url in urls) { %>
-            <h3><%= url %> &ensp; → &ensp; <%= urls[url].URL %></h3>
+            <h3><%= url %> &ensp; → &ensp; <%= urls[url] %></h3>
             
             <form method="GET" action="/urls/<%= url %>/"><input type="submit" value="Edit">
             </form>
