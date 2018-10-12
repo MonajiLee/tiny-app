@@ -93,7 +93,7 @@ app.get("/", function(req, res) {
     if (checkUser(req.session.user_id)) {
         res.redirect("/urls");
     } else {
-        res.redirect("/login")
+        res.redirect("/register")
     }
 });
 
@@ -196,10 +196,13 @@ app.get("/login", function(req, res) {
 
 // Register Page
 app.get("/register", function(req, res) {
+    let templateVars = {
+        userObj: users[req.session.user_id]
+    }
     if (checkUser(req.session.user_id)) {
         res.redirect("/urls")
     } else {
-    res.render("register");
+    res.render("register", templateVars);
     }
 });
 
