@@ -1,8 +1,4 @@
-<head>
-    <title>TinyApp</title>
-</head>
-
-<body>
+<header>
     <% if(userObj) { %>
     <h2><%= userObj.email %></h2>
     <form method="POST" action="/logout"><input type="submit" value="Logout"></form>
@@ -10,4 +6,4 @@
     <% } else { %>
     <a href="/register">Sign Up</a> &ensp; <a href="/login">Login</a>
     <% } %>
-</body>
+</header>
