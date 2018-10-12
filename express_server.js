@@ -33,12 +33,12 @@ const users = {
     "userRandomID": {
       id: "userRandomID",
       email: "user@example.com",
-      password: "purple-monkey-dinosaur"
+      password: bcrypt.hashSync("purple-monkey-dinosaur", 10)
     },
    "user2RandomID": {
       id: "user2RandomID",
       email: "user2@example.com",
-      password: "dishwasher-funk"
+      password: bcrypt.hashSync("dishwasher-funk", 10)
     }
 };
 
@@ -69,7 +69,7 @@ function checkUser(idSubmitted) {
 
 function checkCreator(idSubmitted) {
     for (let url in urlDatabase) {
-        if (idSubmitted === url.userID) {
+        if (idSubmitted === urlDatabase[url].userID) {
             return true;
         }
     }
@@ -79,18 +79,13 @@ function checkCreator(idSubmitted) {
 function urlsForUser(id) {
     let userUrls = {};
     for (let url in urlDatabase) {
-        if (id === url.userID) {
-            userUrls[url] = urlDatabase[url]    // empty object
-            console.log(userUrls[url]);
+        if (id === urlDatabase[url].userID) {
+            userUrls[url] = urlDatabase[url].URL
         }
     }
     return userUrls;
 }
 
-// function urlsForUser(id) {
-//     let ownUrls = {};
-//     if (id === userId)
-// }
 
 // PAGES ---------------------------------------------------------
 app.get("/", function(req, res) {
@@ -155,9 +150,6 @@ app.get("/u/:id", function(req, res) {
 app.post("/urls", function(req, res) {
     if (checkUser(req.session.user_id)) {
         let uniqueShortURL = generateRandomString();
-        console.log("DATABASE WORK DO YOU", urlDatabase);
-        console.log("with a dot", urlDatabase.uniqueShortURL);
-        console.log("WHAT ARE YOU?!", urlDatabase[uniqueShortURL]);
         urlDatabase[uniqueShortURL] = {};
         urlDatabase[uniqueShortURL].URL = req.body.longURL;
         urlDatabase[uniqueShortURL].userID = req.session.user_id;
