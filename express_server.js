@@ -43,7 +43,7 @@ const users = {
 };
 
 
-// FUNCTIONS & CALLBACKS -----------------------------------------------------
+// FUNCTIONS & VERIFICATIONS --------------------------------------------------
 
 function generateRandomString() {
     return Math.random().toString(16).substring(2, 8);
@@ -88,6 +88,7 @@ function urlsForUser(id) {
 
 
 // PAGES ---------------------------------------------------------
+
 app.get("/", function(req, res) {
     if (checkUser(req.session.user_id)) {
         res.redirect("/urls");
@@ -103,8 +104,6 @@ app.get("/urls", function(req,res) {
         urls: urlList,
         userObj: users[req.session.user_id]
     };
-
-    // console.log(urlsForUser(req.session.user_id)); // ******** empty object
     res.render("urls_index", templateVars);
 });
 
@@ -130,7 +129,6 @@ app.get("/urls/:id", function(req, res) {
     };
 
     if (checkUser(req.session.user_id) && checkCreator(req.session.user_id)) {
-            // urlDatabase[req.params.id] = req.body.longURL;
             res.render("url_shows", templateVars);
     } else {
         res.send("Oops! Please register or login to use TinyApp.");
