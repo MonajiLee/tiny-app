@@ -100,7 +100,7 @@ app.get("/", function(req, res) {
 // Main Page
 app.get("/urls", function(req,res) {
     let urlList = urlsForUser(req.session.user_id);
-    let templateVars = {
+    const templateVars = {
         urls: urlList,
         userObj: users[req.session.user_id]
     };
@@ -109,7 +109,7 @@ app.get("/urls", function(req,res) {
 
 // Create URL Page
 app.get("/urls/new", function(req, res) {
-    let templateVars = {
+    const templateVars = {
         userObj: users[req.session.user_id]
     };
 
@@ -122,7 +122,7 @@ app.get("/urls/new", function(req, res) {
 
 // Edit URL Page
 app.get("/urls/:id", function(req, res) {
-    let templateVars = {
+    const templateVars = {
         shortURL: req.params.id,
         longURL: urlDatabase[req.params.id],
         userObj: users[req.session.user_id]
@@ -138,7 +138,7 @@ app.get("/urls/:id", function(req, res) {
 // Redirect ShortURL to LongURL
 app.get("/u/:id", function(req, res) {
     if (urlsForUser((req.session.user_id))){
-        res.redirect(urlDatabase[req.params.id]);
+        res.redirect(urlDatabase[req.params.id].URL);
     } else {
         res.send("Sorry, we could not find anything there. Please check the inputted URL.")
     }
@@ -148,9 +148,10 @@ app.get("/u/:id", function(req, res) {
 app.post("/urls", function(req, res) {
     if (checkUser(req.session.user_id)) {
         let uniqueShortURL = generateRandomString();
-        urlDatabase[uniqueShortURL] = {};
-        urlDatabase[uniqueShortURL].URL = req.body.longURL;
-        urlDatabase[uniqueShortURL].userID = req.session.user_id;
+        urlDatabase[uniqueShortURL] = {
+            URL: req.body.longURL,
+            userID: req.session.user_id
+        }
         res.redirect(`/urls/${uniqueShortURL}`);
     } else {
         res.send("Oops! Please register or login to use TinyApp.")
@@ -162,6 +163,7 @@ app.post("/urls/:id", function(req, res) {
     if (checkUser(req.session.user_id)) {
         if (checkCreator(req.session.user_id)) {
             urlDatabase[req.params.id].URL = req.body.longURL;
+            // urlDatabase[req.params.id] = req.params.id;
             res.redirect("/urls");
         } else {
             res.send("Sorry, it looks like you cannot change that URL.")
@@ -183,7 +185,7 @@ app.post("/urls/:id/delete", function(req, res) {
 
 // Login Page
 app.get("/login", function(req, res) {
-    let templateVars = {
+    const templateVars = {
         userObj: users[req.session.user_id]
      };
     
@@ -196,7 +198,7 @@ app.get("/login", function(req, res) {
 
 // Register Page
 app.get("/register", function(req, res) {
-    let templateVars = {
+    const templateVars = {
         userObj: users[req.session.user_id]
     }
     if (checkUser(req.session.user_id)) {
@@ -215,9 +217,9 @@ app.post("/login", function(req, res){
             if (bcrypt.compareSync(password, hashedPassword)) {
                 req.session.user_id = users[userId].id;
                 res.redirect("/urls");
-            } else {
-                res.status(403).send("Invalid email and password combination.");
             }
+        } else {
+            res.status(403).send("Invalid email and/or password combination.");
         }
     }
 }); 
