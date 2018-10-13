@@ -1,24 +1,22 @@
 <head>
     <title>Shortened URL</title>
+
+
 </head>
 
 <% include partials/_header %>
 
-<div class="card">
-    <div class="card-body">
-        <h1 class="card-title">TinyApp: Lighthouse Labs URL Shortener</h1>
-    </div>
-</div>
+<h1 style="padding-left:275px">TinyApp: Lighthouse Labs URL Shortener</h1>
+<h2 style="padding-left:500px">Your New TinyURL</h2>
     
 <body style="font-size:20px; padding:50px;">
-    <div class="card">
-        <div class="card-body">
-            <h2 class="card-title">ShortURL: <strong><%= shortURL %></strong>
-            </h2>
-        </div>
-    </div>
-
-    <form action="/urls" method="POST">
+    <h3 style="padding-left:430px; margin: 0">
+        <a href="http://www.localhost:8080/u/<%= shortURL %>">http://www.localhost:8080/u/<%= shortURL %></a>
+    </h3>
+    <h4 style="padding-left:460px;">( Go back to your <a style="text-decoration: none" href="/urls/">TinyURL collection</a> )</h4>
+    <h3 style="padding-left:575px">- OR -</h3>
+    <h2 style="padding-left:490px">Transform it again!</h2>
+    <form style="padding-left:450px" action="/urls/<%= shortURL %>" method="POST">
         <input id="longURL" type="text" name="longURL" placeholder="<%= longURL.URL %>" style="width: 300px">
         <input type="submit" value="Edit">
     </form>

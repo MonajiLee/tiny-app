@@ -1,32 +1,28 @@
 <head>
-    <title>Your URLs</title>
+    <title>Your Tiny URLs</title>
 </head>
 
 <% include partials/_header %>
 
-<div class="card">
-    <div class="card-body">
-        <h1 class="card-title">TinyApp: Lighthouse Labs URL Shortener</h1>
-    </div>
-</div>
+<h1 style="padding-left:275px">TinyApp: Lighthouse Labs URL Shortener</h1>
+<h2 style="padding-left:500px; margin:0">Your TinyURLs</h2>
+<h3 style="padding-left:495px"><a style="text-decoration:none" href='/urls/new'>Add more TinyURLs!</a></h3>
 
 <body style="font-size:20px; padding:50px;">
-    <ul>
-    <% if (userObj) { %>
-        <% for (let url in urls) { %>
-            <h3><%= url %> &ensp; → &ensp; <%= urls[url] %></h3>
-            
-            <form method="GET" action="/urls/<%= url %>/"><input type="submit" value="Edit">
-            </form>
-            
-            <form method="POST" action="/urls/<%= url %>/delete"><input type="submit" value="Delete">
-            </form>
+        <ul>
+        <% if (userObj) { %>
+            <% for (let url in urls) { %>
+                <h3 style="margin-bottom: 1em"><%= url %> &ensp; → &ensp; <%= urls[url] %></h3>
+                
+                <form method="GET" action="/urls/<%= url %>/"><input type="submit" value="Edit" style="float:left">
+                </form>
+                &nbsp;
+                <form method="POST" action="/urls/<%= url %>/delete"><input type="submit" value="Delete" style="float:left">
+                </form>
+            <% } %>
         <% } %>
-            
-        <h3><a href='/urls/new'>Click here to shorten a new URL </a>
-        </h3>
-    <% } %>
-    </ul>
+        </ul>
+    </div>
 
 </body>
 </html>

@@ -1,18 +1,15 @@
 <head>
-    <title>New URL</title>
+    <title>New Tiny URL</title>
 </head>
 
 <% include partials/_header %>
 
-<div class="card">
-    <div class="card-body">
-        <h1 class="card-title">TinyApp: Lighthouse Labs URL Shortener</h1>
-    </div>
-</div>
+<h1 style="padding-left:275px">TinyApp: Lighthouse Labs URL Shortener</h1>
+<h2 style="padding-left:400px">The Tinyfier: Transform a Long URL</h2>
 
 <body style="font-size:20px; padding:50px;">
-    <form action="/urls" method="POST" style="margin:150px;">
-      <label for="longURL">Enter a URL:</label>
+    <form action="/urls" method="POST">
+      <label for="longURL" style="padding-left:390px">Enter a URL:</label>
       <input id="longURL" type="text" name="longURL" placeholder="http://" style="width: 300px">
       <input type="submit" value="Submit">
     </form>

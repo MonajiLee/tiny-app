@@ -1,9 +1,16 @@
-<header>
+<style>
+    @import url('https://fonts.googleapis.com/css?family=PT+Sans:400,700');
+    html {
+        font-family: 'PT Sans', sans-serif;
+    }
+</style>
+
+<header style="font-size:1em">
     <% if(userObj) { %>
     <h2><%= userObj.email %></h2>
     <form method="POST" action="/logout"><input type="submit" value="Logout"></form>
    
     <% } else { %>
-    <a href="/register">Sign Up</a> &ensp; <a href="/login">Login</a>
+    <a href="/register" style="padding-left:535px">Sign Up</a> &ensp;&ensp;&ensp; <a href="/login">Login</a>
     <% } %>
 </header>
