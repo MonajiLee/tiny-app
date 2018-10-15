@@ -77,7 +77,7 @@ function checkCreator(idSubmitted) {
 }
 
 function urlsForUser(id) {
-    let userUrls = {};
+    const userUrls = {};
     for (let url in urlDatabase) {
         if (id === urlDatabase[url].userID) {
             userUrls[url] = urlDatabase[url].URL
@@ -147,7 +147,7 @@ app.get("/u/:id", function(req, res) {
 // Create New URL
 app.post("/urls", function(req, res) {
     if (checkUser(req.session.user_id)) {
-        let uniqueShortURL = generateRandomString();
+        const uniqueShortURL = generateRandomString();
         urlDatabase[uniqueShortURL] = {
             URL: req.body.longURL,
             userID: req.session.user_id
@@ -163,7 +163,6 @@ app.post("/urls/:id", function(req, res) {
     if (checkUser(req.session.user_id)) {
         if (checkCreator(req.session.user_id)) {
             urlDatabase[req.params.id].URL = req.body.longURL;
-            // urlDatabase[req.params.id] = req.params.id;
             res.redirect("/urls");
         } else {
             res.send("Sorry, it looks like you cannot change that URL.")
@@ -217,16 +216,16 @@ app.post("/login", function(req, res){
             if (bcrypt.compareSync(password, hashedPassword)) {
                 req.session.user_id = users[userId].id;
                 res.redirect("/urls");
+            } else {
+                res.status(403).send("Invalid email and/or password combination.");
             }
-        } else {
-            res.status(403).send("Invalid email and/or password combination.");
         }
     }
 }); 
 
 // Register New Account
 app.post("/register", function(req, res) {
-    let uniqueUserId = generateRandomString();
+    const uniqueUserId = generateRandomString();
     if (req.body.email === "" || req.body.password === "") {
         res.status(400).send("Oops, looks like something is missing! Please include both an email and password.");
     } else if (checkEmailMatch(req.body.email)) {
