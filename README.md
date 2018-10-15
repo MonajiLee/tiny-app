@@ -10,7 +10,7 @@ As a part of the web development curriculum at Lighthouse Labs (YVR), this was a
 
 ## Dependencies
 
-* Node.js
+* Node.js (v8.9.4)
 * Express
 * EJS
 * bcrypt
