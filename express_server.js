@@ -90,6 +90,7 @@ function urlsForUser(id) {
 // PAGES ---------------------------------------------------------
 
 app.get("/", function(req, res) {
+    console.log(req.session.user_id);
     if (checkUser(req.session.user_id)) {
         res.redirect("/urls");
     } else {
@@ -152,6 +153,7 @@ app.post("/urls", function(req, res) {
             URL: req.body.longURL,
             userID: req.session.user_id
         }
+        console.log("JUST CREATED NEW LINK", urlDatabase);
         res.redirect(`/urls/${uniqueShortURL}`);
     } else {
         res.send("Oops! Please register or login to use TinyApp.")
